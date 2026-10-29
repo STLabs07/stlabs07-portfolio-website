@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   ChartCandlestick,
   Check,
+  Cloud,
   Copy,
   HeartPulse,
   Linkedin,
@@ -118,6 +119,19 @@ const DATA = {
           link: "https://quantafinance.com/",
           tags: ["React", "Vite", "Tailwind"],
         },
+        {
+          title: "DigitalOcean",
+          icon: Cloud,
+          logo: "/logo-digitalocean.svg",
+          markOnly: true,
+          role: "Junior Developer",
+          period: "Feb 2014 – Nov 2015",
+          subtitle: "Cloud Infrastructure",
+          blurb:
+            "Where I started — hand-coding frontend in HTML, CSS and JavaScript, the foundation for everything since.",
+          link: "https://www.digitalocean.com/",
+          tags: ["HTML", "CSS", "JavaScript"],
+        },
       ],
     },
   },
@@ -144,7 +158,7 @@ const DATA = {
       logo: "/logo-elitist-gaming.svg",
       cover: "/shot-elitist-gaming.webp",
       blurb:
-        "A gaming marketplace where buyers compare verified World of Warcraft: Forever boosting sellers on price, rating and delivery time, covering leveling, dungeons, raids and PvP. Payment is held until the buyer confirms the work is done, so buyers can trust sellers they've never met.",
+        "A gaming marketplace where buyers compare verified World of Warcraft: Forever boosting sellers on price, rating and delivery time, covering leveling, dungeons, raids and PvP. Payment is held until the buyer confirms the work is done, so buyers can trust sellers they've never met. Elitist Gaming began as the competitive esports organization where I was an engineer and SEO strategist (2015–2017); I later built its marketplace.",
       metric: { value: "5,000", suffix: "+", label: "users on the marketplace" },
       tags: ["Next.js", "React", "Marketplace", "Payments"],
       links: [{ label: "Website", url: "https://elitistgaming.com/" }],
@@ -311,7 +325,7 @@ const Hero = () => {
         <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#12142b]/40">
           Worked with
         </div>
-        <div className="mt-4 flex flex-wrap items-center gap-x-10 gap-y-3">
+        <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3">
           {Object.values(DATA.lanes)
             .flatMap((l) => l.projects)
             .map((p) => (
