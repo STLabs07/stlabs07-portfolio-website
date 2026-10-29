@@ -1,711 +1,678 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { motion, MotionConfig } from "framer-motion";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-  MotionConfig,
-} from "framer-motion";
-import {
-  ArrowDownRight,
+  ArrowDown,
   ArrowUpRight,
+  ChartCandlestick,
+  Check,
+  Code2,
+  Copy,
   Download,
-  Mail,
+  HeartPulse,
   Linkedin,
+  Mail,
+  Megaphone,
+  ShoppingBag,
   Sparkles,
-  CheckCircle2,
-  ExternalLink,
+  Timer,
+  TrendingUp,
 } from "lucide-react";
 
 // ====== DATA (edit me) ======
 const DATA = {
   name: "Steve Lopez",
-  role: "Digital Generalist — UX/UI · SEO/AEO/GEO · Full-Stack · Marketing",
-  tagline:
-    "I bridge design, engineering, and search/marketing strategy to build digital products that look great, perform fast, and get found.",
+  specialties: "SEO/GEO · UX/UI · Frontend · Full-Stack · AI Engineer",
+  hello: "Hello, I'm Steve.",
+  intro:
+    "I build AI-powered products and make them findable — 12+ years across search, frontend engineering and AI workflows.",
+  availability: "Open to AI engineering & frontend roles",
   email: "egeisteve@gmail.com",
-  location: "Open to remote",
-  social: {
-    linkedin: "https://www.linkedin.com/in/steven-lopez-47b7a4418/",
-  },
-  highlights: [
-    "12+ years across UX/UI, full-stack dev, and SEO/AEO/GEO",
-    "Led design + SEO for a 30+ store national retail brand",
-    "Building AI-driven search visibility strategy at Nassau AI",
-    "Comfortable owning a project end-to-end: strategy, design, code",
-  ],
-  stats: [
-    { label: "Years", value: 13, suffix: "+" },
-    { label: "Launched", value: 100, suffix: "+" },
-    { label: "A/B Wins", value: 47, suffix: "+" },
-    { label: "Industries", value: 15, suffix: "+" },
-  ],
-  projects: [
-    {
-      title: "Toggle.io",
-      blurb:
-        "Real-time, popular time tracking app built with React & React Native.",
-      impact: ["+28% checkout conversion", "-34% TTFI", "+21% repeat purchase"],
-      stack: ["React", "Vite", "Tailwind", "Framer Motion"],
-      link: "https://toggle.com",
-      role: "Lead UI/UX & Frontend",
-      cover: "/2025-08-12_05-13.png",
-    },
-    {
-      title: "Astra Health — Telemedicine Platform",
-      blurb:
-        "Re-architected patient flows and redesigned the design system to improve accessibility and speed. Transcribing multilingual access with AI.",
-      impact: ["+42% booking completion", "WCAG 2.1 AA", "Design tokens @ scale"],
-      stack: ["React", "TypeScript", "Tailwind"],
-      link: "https://www.astrahealth.ai/",
-      role: "Principal Product Designer",
-      cover:
-        "/2025-08-12_05-12_1.png",
-    },
-    {
-      title: "Quanta Fin — Trading Dashboard",
-      blurb:
-        "High-density data UI with real-time charts, micro-interactions, and delightful performance.",
-      impact: ["95+ Lighthouse perf", "+19% retention", "0→1 design"],
-      stack: ["React", "Vite", "Tailwind"],
-      link: "https://quantafinance.com/",
-      role: "Senior Frontend Engineer",
-      cover:
-        "/2025-08-12_05-12.png",
-    },
-    {
-      title: "Nassau AI — AI Search Visibility",
-      blurb:
-        "Leading SEO and AEO/GEO strategy for AI-driven search and visibility, optimizing brand and client presence across AI Overviews, answer engines, and LLM-based search alongside traditional SERPs.",
-      impact: ["AEO/GEO strategy", "AI Overviews", "LLM search visibility"],
-      stack: ["AEO/GEO", "Technical SEO", "AI Workflows"],
-      role: "AI Lead Developer / SEO Lead",
-    },
-  ],
-  experience: [
-    {
-      company: "Nassau AI",
-      role: "AI Lead Developer / SEO Lead",
-      period: "Jan 2025 — Present",
-      bullets: [
-        "Lead SEO and AEO/GEO strategy for a marketing and development team building AI-driven search and visibility solutions.",
-        "Direct strategy for optimizing brand and client visibility across AI Overviews, answer engines, and LLM-based search (ChatGPT, Perplexity) alongside traditional SERPs.",
-        "Bridge marketing and engineering teams to implement technical SEO improvements directly in product and content workflows.",
-      ],
-    },
-    {
-      company: "Pastel Collections",
-      role: "Head of UI/UX, Fullstack Developer",
-      period: "Mar 2021 — Feb 2025",
-      bullets: [
-        "Owned SEO and on-page optimization strategy for a 30+ store national clothing brand's e-commerce presence.",
-        "Directed UI/UX and full-stack development for the brand's B2B/B2C fashion-tech platform serving New York clients.",
-        "Coordinated with marketing and merchandising teams to align site structure, content, and technical performance with organic growth goals.",
-      ],
-    },
-    {
-      company: "Rank Empire",
-      role: "Senior SEO Analyst",
-      period: "Jun 2017 — Feb 2021",
-      bullets: [
-        "Set SEO strategy across a portfolio of agency clients, tying organic performance to revenue and lead generation rather than rankings alone.",
-        "Ran technical audits — crawlability, indexation, site speed, structured data — and partnered with dev teams to prioritize fixes.",
-        "Oversaw site migrations (domain changes, replatforming, HTTPS) with no loss in organic rankings; managed and mentored a team of SEO specialists.",
-      ],
-    },
-    {
-      company: "Elitist Gaming",
-      role: "Mid-Level Engineer / SEO Strategist",
-      period: "Nov 2015 — Jun 2017",
-      bullets: [
-        "Worked cross-functionally across engineering and marketing for a competitive esports organization that advanced to championship rounds in Korea.",
-        "Built and optimized web infrastructure while driving SEO strategy to grow organic visibility during high-stakes tournament cycles.",
-      ],
-    },
-    {
-      company: "DigitalOcean",
-      role: "Junior Developer",
-      period: "Feb 2014 — Nov 2015",
-      bullets: [
-        "Started career as a junior frontend developer working in HTML, CSS, JavaScript, and other frontend systems.",
-      ],
-    },
-  ],
-  skillGroups: [
-    {
-      label: "Design & Engineering",
-      items: [
-        "Design Systems",
-        "Interaction Design",
-        "Prototyping",
-        "Design Tokens",
-        "Accessibility",
-        "User Research",
-        "Information Architecture",
-        "Micro-interactions",
-        "Motion Design",
-        "React",
-        "TypeScript",
-        "Tailwind",
-        "Framer Motion",
-        "Vite",
-        "Testing Library",
-      ],
-    },
-    {
-      label: "SEO & Marketing",
-      items: [
-        "Technical SEO",
-        "AEO/GEO",
-        "SEO Strategy & Roadmapping",
-        "Paid Ads & Campaign Management",
-        "Content & On-Page Strategy",
-        "Link Building & Digital PR",
-        "Site Migrations & Core Web Vitals",
-        "Team Leadership & Mentorship",
-        "Client Strategy & Reporting",
-      ],
-    },
-  ],
-  seo: {
-    summary:
-      "12+ years spanning technical SEO, AEO/GEO, paid media, and content strategy — bridging classic search optimization with AI-driven search behavior, from keyword and link strategy to optimizing for AI Overviews and answer-engine visibility.",
-    tools: [
-      "GA4",
-      "Search Console",
-      "Ahrefs",
-      "SEMrush",
-      "Screaming Frog",
-    ],
-    highlights: [
-      "Leading AEO/GEO strategy for AI Overviews & LLM-based search (ChatGPT, Perplexity)",
-      "Set SEO strategy across an agency client portfolio, tying organic performance to revenue",
-      "Oversaw site migrations (domain changes, replatforming, HTTPS) with no ranking loss",
-      "Managed and mentored teams of SEO specialists and analysts",
-    ],
-  },
+  linkedin: "https://www.linkedin.com/in/steven-lopez-47b7a4418/",
   resumeUrl: "/Steven_Lopez_Generalist_Resume.docx",
+  // Each project can take an optional `logo` ("/logo-name.svg" in /public): it replaces the
+  // icon on its card and the name in the hero's "Worked with" strip. Add `markOnly: true`
+  // when the logo is a symbol without the company name, so the name still shows.
+  lanes: {
+    marketing: {
+      title: "Marketing Work",
+      short: "Marketing",
+      pitch:
+        "Technical SEO, AEO/GEO and AI search visibility — organic growth tied to revenue, not rankings.",
+      projects: [
+        {
+          title: "Nassau AI",
+          icon: Sparkles,
+          logo: "/logo-nassau-ai.svg",
+          markOnly: true,
+          subtitle: "AI Search Visibility — AEO/GEO Strategy",
+          blurb:
+            "Leading visibility strategy across AI Overviews, ChatGPT, Perplexity and classic SERPs for a marketing & dev team.",
+          // placeholder metric — replace with a real one
+          metric: { value: 3, suffix: "×", label: "AI answer-engine citations" },
+          cover: "/placeholder-nassau.svg", // placeholder image — replace with a real screenshot
+          tags: ["AEO/GEO", "AI Overviews", "Technical SEO"],
+        },
+        {
+          title: "Pastel Collections",
+          icon: ShoppingBag,
+          logo: "/logo-pastel.png",
+          subtitle: "National Retail E-Commerce SEO",
+          blurb:
+            "Owned SEO and on-page strategy for a 30+ store national clothing brand's B2B/B2C platform.",
+          // placeholder metric — replace with a real one
+          metric: { value: 180, prefix: "+", suffix: "%", label: "organic revenue growth" },
+          cover: "/placeholder-pastel.svg", // placeholder image — replace with a real screenshot
+          tags: ["E-Commerce SEO", "Content Strategy", "Core Web Vitals"],
+        },
+        {
+          title: "Rank Empire",
+          icon: TrendingUp,
+          logo: "/logo-rank-empire.svg",
+          markOnly: true,
+          subtitle: "Agency SEO Portfolio",
+          blurb:
+            "Set strategy across an agency client portfolio; oversaw domain, HTTPS and replatform migrations with zero ranking loss.",
+          metric: { value: 549, prefix: "+", suffix: "%", label: "growth in ranking keywords this year" },
+          cover: "/placeholder-rank.svg", // placeholder image — replace with a real screenshot
+          tags: ["SEO Strategy", "Site Migrations", "Team Leadership"],
+        },
+      ],
+    },
+    dev: {
+      title: "Developer Work",
+      short: "Developer",
+      pitch:
+        "React products with design-system rigor — fast, accessible, and pleasant to touch.",
+      projects: [
+        {
+          title: "Toggle.io",
+          icon: Timer,
+          logo: "/logo-toggle.png",
+          subtitle: "Real-Time Time Tracking",
+          blurb:
+            "Popular time tracking app built with React & React Native — lead UI/UX and frontend.",
+          metric: { value: 3, label: "platforms from one codebase — web, iOS and Android" },
+          cover: "/2025-08-12_05-13.png",
+          link: "https://toggle.com",
+          tags: ["React", "React Native", "Framer Motion"],
+        },
+        {
+          title: "Astra Health",
+          icon: HeartPulse,
+          logo: "/logo-astra-health.svg",
+          subtitle: "Telemedicine Platform",
+          blurb:
+            "Re-architected patient flows and the design system for accessibility and speed.",
+          metric: { value: "AA", label: "WCAG 2.1 accessibility" },
+          cover: "/2025-08-12_05-12_1.png",
+          link: "https://www.astrahealth.ai/",
+          tags: ["React", "TypeScript", "Design Tokens"],
+        },
+        {
+          title: "Quanta Fin",
+          icon: ChartCandlestick,
+          subtitle: "Fintech Dashboard",
+          blurb:
+            "High-density real-time data UI with micro-interactions.",
+          metric: { value: 95, suffix: "+", label: "Lighthouse performance score" },
+          cover: "/2025-08-12_05-12.png",
+          link: "https://quantafinance.com/",
+          tags: ["React", "Vite", "Tailwind"],
+        },
+      ],
+    },
+  },
+  // Products I built myself — shown first, as big panels. Drop each logo into /public and match `logo`.
+  // `cover` can be a /public path or a full URL.
+  built: [
+    {
+      name: "Vibey",
+      kind: "Desktop IDE for AI coding agents",
+      logo: "/logo-vibeyy.svg",
+      cover: "https://stlabs07.github.io/vibey/assets/shots/hero.webp",
+      blurb:
+        "My own IDE for vibe coding, built from scratch in Rust, GTK4 and VTE. It's a VS Code-shaped window made for terminal AI agents (Claude Code, Codex, Gemini, aider). Every project gets its own file tree, tabs, git status and terminals, and Vibey notifies you when an agent finishes or needs your input. It uses VS Code's themes, icons and syntax colors and starts in 0.3 s.",
+      metric: { value: 97, suffix: " MB", label: "with 3 projects and 6 terminals open — VS Code uses 547 MB with one" },
+      tags: ["Rust", "GTK4", "AI Agents", "Desktop App"],
+      links: [
+        { label: "Website", url: "https://stlabs07.github.io/vibey/" },
+        { label: "Code on GitHub", url: "https://github.com/STLabs07/vibey" },
+      ],
+    },
+    {
+      name: "Elitist Gaming",
+      kind: "Gaming marketplace",
+      logo: "/logo-elitist-gaming.svg",
+      cover: "/shot-elitist-gaming.webp",
+      blurb:
+        "A gaming marketplace where buyers compare verified World of Warcraft: Forever boosting sellers on price, rating and delivery time, covering leveling, dungeons, raids and PvP. Payment is held until the buyer confirms the work is done, so buyers can trust sellers they've never met.",
+      metric: { value: "5,000", suffix: "+", label: "users on the marketplace" },
+      tags: ["Next.js", "React", "Marketplace", "Payments"],
+      links: [{ label: "Website", url: "https://elitistgaming.com/" }],
+    },
+  ],
 };
 
-// ====== Utilities ======
-const useCountUp = (to, duration = 1.4) => {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    let raf;
-    let start;
-    const step = (t) => {
-      if (!start) start = t;
-      const p = Math.min((t - start) / (duration * 1000), 1);
-      setN(Math.floor(to * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [to, duration]);
-  return n;
-};
-
-const container = (stagger = 0.08) => ({
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: stagger } },
-});
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+// ====== Lane tokens: accent colors per lane ======
+const MODES = {
+  marketing: {
+    accent: "#FF5C1F",
+    accentSoft: "rgba(255,92,31,0.12)",
+    glowA: "rgba(255,92,31,0.35)",
+    icon: Megaphone,
+  },
+  dev: {
+    accent: "#3450FF",
+    accentSoft: "rgba(52,80,255,0.1)",
+    glowA: "rgba(52,80,255,0.32)",
+    icon: Code2,
   },
 };
 
-// ====== Background FX ======
-const BackgroundFX = () => {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 600], [0, -40]);
-  const y2 = useTransform(scrollY, [0, 600], [0, 40]);
-  return (
-    <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-      <motion.div
-        style={{ y: y1 }}
-        animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.75, 0.45] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-24 left-1/2 h-[46rem] w-[46rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(80,150,255,0.5),rgba(0,0,0,0))] blur-3xl"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.6, 0.35] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-        className="absolute top-64 left-[10%] h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,100,150,0.4),rgba(0,0,0,0))] blur-3xl"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.5, 0.25] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-        className="absolute bottom-0 right-[5%] h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(120,90,255,0.35),rgba(0,0,0,0))] blur-3xl"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.06]" />
-      <div className="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3px_3px]" />
-    </div>
-  );
-};
+const asset = (p) =>
+  /^https?:/.test(p) ? p : import.meta.env.BASE_URL + p.replace(/^\//, "");
 
-// ====== Mouse Glow ======
-const MouseGlow = () => {
-  const x = useMotionValue(-1000);
-  const y = useMotionValue(-1000);
-  const tx = useSpring(x, { stiffness: 300, damping: 30, mass: 0.5 });
-  const ty = useSpring(y, { stiffness: 300, damping: 30, mass: 0.5 });
+const EASE = [0.22, 1, 0.36, 1];
 
-  useEffect(() => {
-    const move = (e) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, [x, y]);
+// ====== Atmosphere: bright ambient glow, a blend of both lanes ======
+const Atmosphere = () => (
+  <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <motion.div
+      animate={{ x: [0, 40, 0], y: [0, 24, 0] }}
+      transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute -top-40 right-[-10%] h-[42rem] w-[42rem] rounded-full blur-3xl"
+      style={{ background: `radial-gradient(circle at center, ${MODES.marketing.glowA}, transparent 70%)` }}
+    />
+    <motion.div
+      animate={{ x: [0, -32, 0], y: [0, -20, 0] }}
+      transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      className="absolute bottom-[-15%] left-[-8%] h-[38rem] w-[38rem] rounded-full blur-3xl"
+      style={{ background: `radial-gradient(circle at center, ${MODES.dev.glowA}, transparent 70%)` }}
+    />
 
-  return (
-    <motion.div aria-hidden className="pointer-events-none fixed inset-0 z-50">
-      <motion.div
-        style={{ translateX: tx, translateY: ty }}
-        className="fixed -translate-x-1/2 -translate-y-1/2"
-      >
-        <div className="relative">
-          <div
-            className="h-[250px] w-[250px] rounded-full blur-[150px]"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(59,130,246,0.9), rgba(168,85,247,0.7), transparent 70%)",
-            }}
-          />
-          <div
-            className="pointer-events-none absolute inset-0 rounded-full blur-xl opacity-80"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(255,255,255,0.35), transparent 60%)",
-            }}
-          />
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
+    <div className="absolute inset-0 opacity-[0.4] [background-image:radial-gradient(rgba(18,20,43,0.07)_1px,transparent_1px)] [background-size:26px_26px]" />
+  </div>
+);
 
-
-// ====== UI ======
-const Nav = () => {
-  const links = [
-    { href: "#projects", label: "Projects" },
-    { href: "#experience", label: "Experience" },
-    { href: "#seo", label: "SEO" },
-    { href: "#skills", label: "Skills" },
-    { href: "#contact", label: "Contact" },
-  ];
-  return (
-    <div className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-950/50">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <a href="#top" className="group inline-flex items-center gap-2">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
-            <Sparkles className="h-4 w-4 text-white/80" />
-          </span>
-          <span className="font-semibold tracking-tight text-white/90">{DATA.name}</span>
-          <span className="hidden text-white/40 sm:inline">· {DATA.role}</span>
+// ====== Header: name · specialties · work · email ======
+const Header = () => (
+  <header className="fixed inset-x-0 top-0 z-40 border-b border-[#12142b]/8 bg-[#f4f5fb]/75 backdrop-blur-xl">
+    <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <a href="#top" className="flex items-baseline gap-3">
+        <span className="font-display whitespace-nowrap text-lg font-semibold tracking-tight text-[#12142b]">
+          {DATA.name}
+        </span>
+        <span className="hidden text-xs font-medium tracking-wide text-[#12142b]/55 lg:inline">
+          {DATA.specialties}
+        </span>
+      </a>
+      <div className="flex items-center gap-1 sm:gap-2">
+        <a
+          href="#work"
+          className="rounded-full px-3 py-2 text-sm font-medium text-[#12142b]/75 transition hover:bg-[#12142b]/5 hover:text-[#12142b]"
+        >
+          Work
         </a>
-        <div className="flex items-center gap-1">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-xl px-3 py-2 text-sm text-white/80 transition hover:bg-white/5 hover:text-white"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href={import.meta.env.BASE_URL + DATA.resumeUrl.slice(1)}
-            className="ml-2 hidden rounded-xl border border-white/10 px-3 py-2 text-sm text-white/90 hover:bg-white/5 sm:inline-flex"
-            download
-          >
-            <Download className="mr-2 h-4 w-4" /> CV
-          </a>
-        </div>
-      </nav>
-    </div>
-  );
-};
+        <a
+          href="#contact"
+          className="rounded-full px-3 py-2 text-sm font-medium text-[#12142b]/75 transition hover:bg-[#12142b]/5 hover:text-[#12142b]"
+        >
+          Contact
+        </a>
+        <a
+          href={`mailto:${DATA.email}`}
+          className="ml-1 inline-flex items-center gap-2 rounded-full bg-[#6251d9] px-4 py-2 text-sm font-medium text-white transition hover:opacity-85"
+        >
+          <Mail className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">{DATA.email}</span>
+          <span className="sm:hidden">Email</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+);
 
+// ====== Hero: "Hello, I'm Steve." ======
 const Hero = () => {
-  const words = DATA.tagline.split(" ");
+  const words = DATA.hello.split(" ");
   return (
-    <section
-      id="top"
-      className="relative mx-auto max-w-6xl px-4 pb-12 pt-20 sm:pb-16 sm:pt-28"
-    >
+    <section id="top" className="relative flex min-h-svh flex-col px-4 sm:px-6">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center pt-24 pb-16">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="mb-6 text-sm font-semibold uppercase tracking-[0.25em] text-[#12142b]/50"
+        >
+          {DATA.specialties}
+        </motion.p>
+        <h1 className="font-display text-[clamp(3rem,10vw,7.5rem)] leading-[0.95] font-semibold tracking-tight text-[#12142b]">
+          {words.map((w, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: "0.6em", rotate: 2 }}
+              animate={{ opacity: 1, y: 0, rotate: 0 }}
+              transition={{ delay: 0.15 + i * 0.12, duration: 0.9, ease: EASE }}
+              className={
+                "mr-[0.25em] inline-block " +
+                (i === words.length - 1
+                  ? "bg-gradient-to-r from-[#FF5C1F] via-[#FF3D8A] to-[#3450FF] bg-clip-text text-transparent"
+                  : "")
+              }
+            >
+              {w}
+            </motion.span>
+          ))}
+        </h1>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.8, ease: EASE }}
+          className="mt-8 max-w-xl text-lg leading-relaxed text-[#12142b]/70 sm:text-xl"
+        >
+          {DATA.intro}
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
+          className="mt-10 flex flex-wrap items-center gap-3"
+        >
+          <a
+            href="#work"
+            className="inline-flex items-center gap-2 rounded-full bg-[#6251d9] px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-85"
+          >
+            See my work <ArrowDown className="h-4 w-4" />
+          </a>
+          <a
+            href={`mailto:${DATA.email}`}
+            className="inline-flex items-center gap-2 rounded-full border border-[#12142b]/15 bg-white/60 px-6 py-3.5 text-sm font-semibold text-[#12142b] transition hover:bg-white"
+          >
+            <Mail className="h-4 w-4" /> Get in touch
+          </a>
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
+          className="mt-6 inline-flex items-center gap-2.5 text-sm font-medium text-[#12142b]/70"
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+          </span>
+          {DATA.availability}
+        </motion.p>
+      </div>
+      {/* Worked-with strip: company names as wordmarks until real logos are in /public */}
       <motion.div
-        variants={container(0.06)}
-        initial="hidden"
-        animate="show"
-        className="grid items-center gap-10 md:grid-cols-12"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4, duration: 0.8, ease: EASE }}
+        className="mx-auto w-full max-w-6xl border-t border-[#12142b]/8 pt-6 pb-10"
       >
-        <div className="md:col-span-7">
-          <motion.h1
-            variants={fadeUp}
-            className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl"
-          >
-            UX/UI · SEO/AEO/GEO · Full-Stack
-          </motion.h1>
-          <motion.p
-            variants={fadeUp}
-            className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-white/80 sm:text-lg"
-          >
-            {words.map((w, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.03, duration: 0.4 }}
-              >
-                {w}{" "}
-              </motion.span>
-            ))}
-          </motion.p>
-          <motion.div
-            variants={fadeUp}
-            className="mt-7 flex flex-wrap items-center gap-3"
-          >
-            <a
-              href="#projects"
-              className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-medium text-black transition hover:opacity-90"
-            >
-              View projects <ArrowDownRight className="ml-2 h-4 w-4" />
-            </a>
-            <a
-  href={import.meta.env.BASE_URL + DATA.resumeUrl.slice(1)}
-  download
-  className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-medium text-black hover:opacity-90"
->
-  <Download className="mr-2 h-4 w-4" /> Download CV (DOCX)
-</a>
-          </motion.div>
-          <motion.div
-            variants={fadeUp}
-            className="mt-6 flex flex-wrap items-center gap-4 text-sm text-white/70"
-          >
-            <span>{DATA.location}</span>
-            <span className="hidden h-1 w-1 rounded-full bg-white/30 sm:inline-block" />
-            <a
-              className="inline-flex items-center gap-2 hover:text-white"
-              href={DATA.social.linkedin}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Linkedin className="h-4 w-4" /> LinkedIn
-            </a>
-          </motion.div>
+        <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#12142b]/40">
+          Worked with
         </div>
-        <div className="md:col-span-5">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-            className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6"
-          >
-            <div className="text-white/80">
-              <div className="text-sm tracking-wide text-white/70">Highlights</div>
-              <ul className="mt-3 space-y-2">
-                {DATA.highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white/65" />
-                    <span className="text-sm leading-relaxed text-white/80">
-                      {h}
+        <div className="mt-4 flex flex-wrap items-center gap-x-10 gap-y-3">
+          {Object.values(DATA.lanes)
+            .flatMap((l) => l.projects)
+            .map((p) => (
+              p.logo ? (
+                <span key={p.title} className="inline-flex items-center gap-2.5 opacity-50 grayscale">
+                  <img
+                    src={asset(p.logo)}
+                    alt={p.markOnly ? "" : p.title}
+                    className={p.markOnly ? "h-7 w-auto" : "h-6 w-auto sm:h-7"}
+                  />
+                  {p.markOnly && (
+                    <span className="font-display text-lg font-semibold tracking-tight text-[#12142b] sm:text-xl">
+                      {p.title}
                     </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
+                  )}
+                </span>
+              ) : (
+                <span
+                  key={p.title}
+                  className="font-display text-lg font-semibold tracking-tight text-[#12142b]/35 sm:text-xl"
+                >
+                  {p.title}
+                </span>
+              )
+            ))}
         </div>
       </motion.div>
     </section>
   );
 };
 
-const Stat = ({ value, suffix = "", label }) => {
-  const n = useCountUp(value);
+// ====== "This is what I do" — two lanes that lead into the showcase ======
+const WhatIDo = () => {
+  const cards = [
+    { key: "marketing", eyebrow: "SEO / Marketing", ...DATA.lanes.marketing },
+    { key: "dev", eyebrow: "Development", ...DATA.lanes.dev },
+  ];
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-6 text-center">
-      <div className="text-4xl font-semibold tracking-tight text-white">
-        {n}
-        <span className="text-white/70">{suffix}</span>
-      </div>
-      <div className="mt-1 text-sm text-white/70">{label}</div>
-    </div>
-  );
-};
-
-const SectionLabel = ({ index, label }) => (
-  <div className="mb-5 flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-indigo-300/70">
-    <span>{index}</span>
-    <span>{label}</span>
-    <span className="h-px flex-1 bg-gradient-to-r from-white/15 to-transparent" />
-  </div>
-);
-
-const Stats = () => (
-  <section className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-      {DATA.stats.map((s, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: i * 0.05, duration: 0.5 }}
-        >
-          <Stat {...s} />
-        </motion.div>
-      ))}
-    </div>
-  </section>
-);
-
-const ProjectRow = ({ p, i }) => {
-  const Wrapper = p.link ? motion.a : motion.div;
-  return (
-    <Wrapper
-      href={p.link}
-      target={p.link ? "_blank" : undefined}
-      rel={p.link ? "noreferrer" : undefined}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: i * 0.05 }}
-      className="group relative flex flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-5 pt-7 shadow-[6px_6px_0_0_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:border-indigo-400/30 hover:shadow-[6px_6px_0_0_rgba(99,102,241,0.25)] sm:flex-row"
-    >
-      <span className="absolute -top-3 left-4 rounded-md border border-indigo-400/30 bg-indigo-500/15 px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest text-indigo-200">
-        {p.role}
-      </span>
-      {p.cover && (
-        <div className="aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl border border-white/10 sm:w-56">
-          <img
-            src={import.meta.env.BASE_URL + p.cover.slice(1)}
-            alt={`${p.title} cover`}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-          />
-        </div>
-      )}
-      <div className="flex flex-1 flex-col gap-3">
-        <div className="flex items-center justify-between gap-3">
-          <h3 className="text-lg font-semibold text-white">{p.title}</h3>
-          {p.link && <ExternalLink className="h-4 w-4 shrink-0 text-white/70" />}
-        </div>
-        <p className="text-sm leading-relaxed text-white/80">{p.blurb}</p>
-        <div className="flex flex-wrap gap-2">
-          {p.stack.map((t) => (
-            <span
-              key={t}
-              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/80"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="mt-1 flex flex-wrap gap-3 text-sm text-white/80">
-          {p.impact.map((m) => (
-            <span
-              key={m}
-              className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10"
-            >
-              <ArrowUpRight className="h-3.5 w-3.5" /> {m}
-            </span>
-          ))}
-        </div>
-      </div>
-    </Wrapper>
-  );
-};
-
-const Projects = () => (
-  <section id="projects" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-    <SectionLabel index="01" label="Selected Work" />
-    <div className="mb-6 flex items-end justify-between">
-      <div>
-        <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-          Things I've Created
-        </h2>
-        <p className="mt-2 text-sm text-white/80">
-          Impact-focused work that blends design craft, engineering rigor, and search strategy.
-        </p>
-      </div>
-      <a
-        href="#contact"
-        className="hidden rounded-2xl border border-white/15 px-4 py-2 text-sm text-white/80 hover:bg-white/5 sm:inline-flex"
+    <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7, ease: EASE }}
+        className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-tight text-[#12142b]"
       >
-        Work together
-      </a>
-    </div>
-    <div className="grid gap-4">
-      {DATA.projects.map((p, i) => (
-        <ProjectRow key={p.title} p={p} i={i} />
-      ))}
-    </div>
-  </section>
-);
-
-const Experience = () => (
-  <section id="experience" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-    <SectionLabel index="02" label="Career Path" />
-    <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-      Experience
-    </h2>
-    <div className="mt-6 space-y-6">
-      {DATA.experience.map((e, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: i * 0.06 }}
-          className="rounded-3xl border border-white/10 bg-white/5 p-6"
-        >
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <div className="text-white/90">{e.role}</div>
-              <div className="text-sm text-white/70">{e.company}</div>
-            </div>
-            <div className="text-sm text-white/70">{e.period}</div>
-          </div>
-          <div className="mt-4 h-px bg-white/10" />
-          <ul className="mt-4 grid gap-2">
-            {e.bullets.map((b, j) => (
-              <li key={j} className="flex items-start gap-3 text-sm text-white/80">
-                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-white/40" />
-                {b}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-      ))}
-    </div>
-  </section>
-);
-
-const SEO = () => (
-  <section id="seo" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-    <SectionLabel index="03" label="Search & Marketing" />
-    <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-      SEO & AI Search Visibility
-    </h2>
-    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/80">
-      {DATA.seo.summary}
-    </p>
-    <div className="mt-6 grid gap-5 md:grid-cols-2">
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-        <div className="text-sm tracking-wide text-white/80">Highlights</div>
-        <ul className="mt-3 space-y-2">
-          {DATA.seo.highlights.map((h, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white/70" />
-              <span className="text-sm leading-relaxed text-white/80">{h}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-        <div className="text-sm tracking-wide text-white/80">Tools</div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {DATA.seo.tools.map((t) => (
-            <span
-              key={t}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/80"
+        This is what I do.
+      </motion.h2>
+      <div className="mt-10 grid gap-5 md:grid-cols-2">
+        {cards.map((c, i) => {
+          const m = MODES[c.key];
+          const Icon = m.icon;
+          return (
+            <motion.a
+              key={c.key}
+              href="#work"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: EASE }}
+              whileHover={{ y: -6 }}
+              className="group relative overflow-hidden rounded-[2rem] border border-[#12142b]/8 bg-white p-8 shadow-[0_20px_60px_-30px_rgba(18,20,43,0.25)] sm:p-10"
             >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const Skills = () => (
-  <section id="skills" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-    <SectionLabel index="04" label="Skills" />
-    <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-      Skills & Focus
-    </h2>
-    <div className="mt-6 space-y-6">
-      {DATA.skillGroups.map((group) => (
-        <div key={group.label}>
-          <div className="text-sm tracking-wide text-white/80">{group.label}</div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {group.items.map((s) => (
+              <div
+                className="absolute inset-x-0 top-0 h-1.5"
+                style={{ background: m.accent }}
+              />
               <span
-                key={s}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/80"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-2xl"
+                style={{ background: m.accentSoft, color: m.accent }}
               >
-                {s}
+                <Icon className="h-6 w-6" />
+              </span>
+              <div className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#12142b]/50">
+                {c.eyebrow}
+              </div>
+              <h3 className="font-display mt-2 text-2xl font-semibold tracking-tight text-[#12142b] sm:text-3xl">
+                {c.title}
+              </h3>
+              <p className="mt-3 text-base leading-relaxed text-[#12142b]/70">{c.pitch}</p>
+              <div
+                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition group-hover:gap-3"
+                style={{ color: m.accent }}
+              >
+                Explore <ArrowUpRight className="h-4 w-4" />
+              </div>
+            </motion.a>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+// ====== Logo: renders nothing if the file isn't in /public yet (the name still shows) ======
+const Logo = ({ src }) => {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) return null;
+  return (
+    <img
+      src={asset(src)}
+      alt=""
+      onError={() => setFailed(true)}
+      className="h-12 w-auto max-w-[4rem] object-contain"
+    />
+  );
+};
+
+// ====== Featured panel: products I built, image side alternating ======
+const FeaturedPanel = ({ p, i }) => {
+  const m = MODES.dev;
+  const flip = i % 2 === 1;
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 48, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.9, ease: EASE }}
+      className="overflow-hidden rounded-[2.5rem] border border-[#12142b]/8 bg-white shadow-[0_30px_80px_-40px_rgba(18,20,43,0.3)]"
+    >
+      <div className={`grid items-stretch lg:grid-cols-2 ${flip ? "lg:[direction:rtl]" : ""}`}>
+        <div className="p-8 sm:p-12 lg:[direction:ltr]">
+          <div className="text-sm font-semibold" style={{ color: m.accent }}>
+            {p.kind}
+          </div>
+          <div className="mt-3 flex items-center gap-4">
+            <Logo src={p.logo} />
+            <h3 className="font-display text-3xl font-semibold tracking-tight text-[#12142b] sm:text-4xl">
+              {p.name}
+            </h3>
+          </div>
+          <p className="mt-5 text-base leading-relaxed text-[#12142b]/70">{p.blurb}</p>
+          {p.metric && (
+            <div className="mt-6">
+              <div
+                className="font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-none font-semibold tracking-tight"
+                style={{ color: m.accent }}
+              >
+                {p.metric.prefix}
+                {p.metric.value}
+                {p.metric.suffix}
+              </div>
+              <div className="mt-1.5 text-sm font-medium text-[#12142b]/60">{p.metric.label}</div>
+            </div>
+          )}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {p.tags.map((t) => (
+              <span
+                key={t}
+                className="rounded-full px-3 py-1.5 text-xs font-medium"
+                style={{ background: m.accentSoft, color: m.accent }}
+              >
+                {t}
               </span>
             ))}
           </div>
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+            {p.links.map((l) => (
+              <a
+                key={l.url}
+                href={l.url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold underline-offset-4 hover:underline"
+                style={{ color: m.accent }}
+              >
+                {l.label} <ArrowUpRight className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </section>
-);
-
-const Contact = () => (
-  <section id="contact" className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-    <SectionLabel index="05" label="Contact" />
-    <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-8">
-      <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Let’s build something exceptional
-          </h2>
-          <p className="mt-2 max-w-xl text-sm text-white/80">
-            I’m available for senior UI/UX, staff frontend, or principal product roles. Open to consulting and audits as well.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <a
-            href={`mailto:${DATA.email}`}
-            className="inline-flex items-center rounded-2xl bg-white px-5 py-3 text-sm font-medium text-black hover:opacity-90"
-          >
-            <Mail className="mr-2 h-4 w-4" /> Email me
-          </a>
-          <a
-            href={DATA.social.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center rounded-2xl border border-white/20 px-5 py-3 text-sm font-medium text-white/90 hover:bg-white/5"
-          >
-            <Linkedin className="mr-2 h-4 w-4" /> Connect
-          </a>
+        <div className="relative min-h-[16rem] overflow-hidden bg-[#12142b]/5 lg:[direction:ltr]">
+          <img
+            src={asset(p.cover)}
+            alt={`${p.name} screenshot`}
+            className="absolute inset-0 h-full w-full object-cover object-left-top"
+          />
         </div>
       </div>
-    </div>
-  </section>
-);
+    </motion.article>
+  );
+};
+
+// ====== Role card: compact, same shape for every lane ======
+const RoleCard = ({ p, lane, i }) => {
+  const m = MODES[lane];
+  const Icon = p.icon;
+  const Card = p.link ? motion.a : motion.div;
+  return (
+    <Card
+      {...(p.link && { href: p.link, target: "_blank", rel: "noreferrer", whileHover: { y: -6 } })}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay: (i % 3) * 0.08, ease: EASE }}
+      className="group flex flex-col rounded-[2rem] border border-[#12142b]/8 bg-white p-7 shadow-[0_20px_60px_-30px_rgba(18,20,43,0.25)]"
+    >
+      <div className="flex items-start justify-between gap-3">
+        {p.logo && !p.markOnly ? (
+          <img
+            src={asset(p.logo)}
+            alt=""
+            className="h-12 w-auto max-w-[9rem] object-contain object-left"
+          />
+        ) : (
+          <span
+            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl"
+            style={{ background: m.accentSoft, color: m.accent }}
+          >
+            {p.logo ? (
+              <img src={asset(p.logo)} alt="" className="h-8 w-8 object-contain" />
+            ) : (
+              <Icon className="h-6 w-6" />
+            )}
+          </span>
+        )}
+        <div className="flex items-center gap-2">
+          <span
+            className="rounded-full px-3 py-1 text-xs font-semibold"
+            style={{ background: m.accentSoft, color: m.accent }}
+          >
+            {DATA.lanes[lane].short}
+          </span>
+          {p.link && (
+            <ArrowUpRight className="h-4 w-4 text-[#12142b]/35 transition group-hover:text-[#12142b]" />
+          )}
+        </div>
+      </div>
+      <h3 className="font-display mt-5 text-2xl font-semibold tracking-tight text-[#12142b]">
+        {p.title}
+      </h3>
+      <div className="mt-1 text-sm font-medium text-[#12142b]/55">{p.subtitle}</div>
+      <p className="mt-4 text-sm leading-relaxed text-[#12142b]/70">{p.blurb}</p>
+      {p.metric && (
+        <div className="mt-5 flex items-baseline gap-2">
+          <span className="font-display text-2xl font-semibold" style={{ color: m.accent }}>
+            {p.metric.prefix}
+            {p.metric.value}
+            {p.metric.suffix}
+          </span>
+          <span className="text-sm text-[#12142b]/60">{p.metric.label}</span>
+        </div>
+      )}
+      <div className="mt-auto pt-6 text-xs font-medium text-[#12142b]/45">{p.tags.join(" · ")}</div>
+    </Card>
+  );
+};
+
+// ====== Showcase: my own products as big panels, past roles as a grid ======
+const Showcase = () => {
+  const roles = Object.entries(DATA.lanes).flatMap(([lane, l]) =>
+    l.projects.map((p) => ({ p, lane }))
+  );
+  const eyebrow = "text-xs font-semibold uppercase tracking-[0.2em] text-[#12142b]/50";
+  return (
+    <section id="work" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7, ease: EASE }}
+        className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-tight text-[#12142b]"
+      >
+        Selected work.
+      </motion.h2>
+      <div className={`mt-10 ${eyebrow}`}>Products I built</div>
+      <div className="mt-5 grid gap-8">
+        {DATA.built.map((p, i) => (
+          <FeaturedPanel key={p.name} p={p} i={i} />
+        ))}
+      </div>
+      <div className={`mt-20 ${eyebrow}`}>Where I've worked</div>
+      <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {roles.map(({ p, lane }, i) => (
+          <RoleCard key={p.title} p={p} lane={lane} i={i} />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// ====== Contact ======
+const Contact = () => {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(DATA.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
+  return (
+    <section id="contact" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-28 text-center sm:px-6">
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.8, ease: EASE }}
+      >
+        <div className="text-sm font-semibold uppercase tracking-[0.25em] text-[#12142b]/50">
+          Get in touch
+        </div>
+        <h2 className="font-display mt-4 text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.02] font-semibold tracking-tight text-[#12142b]">
+          Let's make something
+          <br />
+          <span className="bg-gradient-to-r from-[#FF5C1F] via-[#FF3D8A] to-[#3450FF] bg-clip-text text-transparent">
+            worth finding.
+          </span>
+        </h2>
+        <a
+          href={`mailto:${DATA.email}`}
+          className="font-display mt-10 inline-block break-all text-[clamp(1.25rem,4vw,2.75rem)] font-medium tracking-tight text-[#12142b] underline decoration-[#12142b]/20 decoration-2 underline-offset-8 transition hover:decoration-[#FF5C1F]"
+        >
+          {DATA.email}
+        </a>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <button
+            onClick={copy}
+            className="inline-flex items-center gap-2 rounded-full bg-[#6251d9] px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-85"
+          >
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? "Copied!" : "Copy email"}
+          </button>
+          <a
+            href={DATA.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-[#12142b]/15 bg-white/60 px-6 py-3.5 text-sm font-semibold text-[#12142b] transition hover:bg-white"
+          >
+            <Linkedin className="h-4 w-4" /> LinkedIn
+          </a>
+          <a
+            href={asset(DATA.resumeUrl)}
+            download
+            className="inline-flex items-center gap-2 rounded-full border border-[#12142b]/15 bg-white/60 px-6 py-3.5 text-sm font-semibold text-[#12142b] transition hover:bg-white"
+          >
+            <Download className="h-4 w-4" /> CV
+          </a>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
 
 export default function Portfolio() {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative min-h-screen scroll-smooth bg-zinc-950 text-white">
-        <BackgroundFX />
-        <MouseGlow />
-        <Nav />
+      <div className="relative min-h-screen font-sans text-[#12142b]">
+        <Atmosphere />
+        <Header />
         <Hero />
-        <Stats />
-        <Projects />
-        <Experience />
-        <SEO />
-        <Skills />
+        <WhatIDo />
+        <Showcase />
         <Contact />
-        <footer className="mx-auto max-w-6xl px-4 pb-10 text-center text-xs text-white/65">
-          © {new Date().getFullYear()} {DATA.name}. Built with React, Tailwind & Framer Motion. Deployed on GitHub Pages.
+        <footer className="mx-auto max-w-6xl px-4 pb-10 text-center text-xs text-[#12142b]/50">
+          © {new Date().getFullYear()} {DATA.name} · {DATA.specialties}
         </footer>
       </div>
     </MotionConfig>

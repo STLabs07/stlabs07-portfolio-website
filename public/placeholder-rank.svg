@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 880">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFB300"/>
+      <stop offset="1" stop-color="#FF5C1F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="880" fill="url(#g)"/>
+  <circle cx="1120" cy="700" r="240" fill="rgba(255,255,255,0.08)"/>
+  <rect x="220" y="150" width="680" height="150" rx="30" fill="rgba(255,255,255,0.95)"/>
+  <circle cx="300" cy="225" r="38" fill="#FF7A28"/>
+  <path d="M300 205 v40 M300 205 l-14 14 M300 205 l14 14" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="370" y="190" width="380" height="28" rx="14" fill="rgba(255,122,40,0.4)"/>
+  <rect x="370" y="238" width="260" height="24" rx="12" fill="rgba(255,122,40,0.2)"/>
+  <rect x="220" y="340" width="680" height="120" rx="30" fill="rgba(255,255,255,0.55)"/>
+  <rect x="220" y="500" width="680" height="120" rx="30" fill="rgba(255,255,255,0.35)"/>
+  <polyline points="300,760 460,700 620,720 780,640 940,660 1080,560" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1080 560 l-52 6 M1080 560 l-8 52" stroke="rgba(255,255,255,0.9)" stroke-width="14" stroke-linecap="round"/>
+</svg>
