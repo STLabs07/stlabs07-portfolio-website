@@ -5,13 +5,10 @@ import {
   ArrowUpRight,
   ChartCandlestick,
   Check,
-  Code2,
   Copy,
-  Download,
   HeartPulse,
   Linkedin,
   Mail,
-  Megaphone,
   ShoppingBag,
   Sparkles,
   Timer,
@@ -28,16 +25,12 @@ const DATA = {
   availability: "Open to AI engineering & frontend roles",
   email: "egeisteve@gmail.com",
   linkedin: "https://www.linkedin.com/in/steven-lopez-47b7a4418/",
-  resumeUrl: "/Steven_Lopez_Generalist_Resume.docx",
   // Each project can take an optional `logo` ("/logo-name.svg" in /public): it replaces the
   // icon on its card and the name in the hero's "Worked with" strip. Add `markOnly: true`
   // when the logo is a symbol without the company name, so the name still shows.
   lanes: {
     marketing: {
-      title: "Marketing Work",
       short: "Marketing",
-      pitch:
-        "Technical SEO, AEO/GEO and AI search visibility — organic growth tied to revenue, not rankings.",
       projects: [
         {
           title: "Nassau AI",
@@ -49,7 +42,6 @@ const DATA = {
             "Leading visibility strategy across AI Overviews, ChatGPT, Perplexity and classic SERPs for a marketing & dev team.",
           // placeholder metric — replace with a real one
           metric: { value: 3, suffix: "×", label: "AI answer-engine citations" },
-          cover: "/placeholder-nassau.svg", // placeholder image — replace with a real screenshot
           tags: ["AEO/GEO", "AI Overviews", "Technical SEO"],
         },
         {
@@ -61,7 +53,6 @@ const DATA = {
             "Owned SEO and on-page strategy for a 30+ store national clothing brand's B2B/B2C platform.",
           // placeholder metric — replace with a real one
           metric: { value: 180, prefix: "+", suffix: "%", label: "organic revenue growth" },
-          cover: "/placeholder-pastel.svg", // placeholder image — replace with a real screenshot
           tags: ["E-Commerce SEO", "Content Strategy", "Core Web Vitals"],
         },
         {
@@ -73,16 +64,12 @@ const DATA = {
           blurb:
             "Set strategy across an agency client portfolio; oversaw domain, HTTPS and replatform migrations with zero ranking loss.",
           metric: { value: 549, prefix: "+", suffix: "%", label: "growth in ranking keywords this year" },
-          cover: "/placeholder-rank.svg", // placeholder image — replace with a real screenshot
           tags: ["SEO Strategy", "Site Migrations", "Team Leadership"],
         },
       ],
     },
     dev: {
-      title: "Developer Work",
       short: "Developer",
-      pitch:
-        "React products with design-system rigor — fast, accessible, and pleasant to touch.",
       projects: [
         {
           title: "Toggle.io",
@@ -159,13 +146,11 @@ const MODES = {
     accent: "#FF5C1F",
     accentSoft: "rgba(255,92,31,0.12)",
     glowA: "rgba(255,92,31,0.35)",
-    icon: Megaphone,
   },
   dev: {
     accent: "#3450FF",
     accentSoft: "rgba(52,80,255,0.1)",
     glowA: "rgba(52,80,255,0.32)",
-    icon: Code2,
   },
 };
 
@@ -346,69 +331,6 @@ const Hero = () => {
   );
 };
 
-// ====== "This is what I do" — two lanes that lead into the showcase ======
-const WhatIDo = () => {
-  const cards = [
-    { key: "marketing", eyebrow: "SEO / Marketing", ...DATA.lanes.marketing },
-    { key: "dev", eyebrow: "Development", ...DATA.lanes.dev },
-  ];
-  return (
-    <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, ease: EASE }}
-        className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-tight text-[#12142b]"
-      >
-        This is what I do.
-      </motion.h2>
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
-        {cards.map((c, i) => {
-          const m = MODES[c.key];
-          const Icon = m.icon;
-          return (
-            <motion.a
-              key={c.key}
-              href="#work"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: i * 0.12, ease: EASE }}
-              whileHover={{ y: -6 }}
-              className="group relative overflow-hidden rounded-[2rem] border border-[#12142b]/8 bg-white p-8 shadow-[0_20px_60px_-30px_rgba(18,20,43,0.25)] sm:p-10"
-            >
-              <div
-                className="absolute inset-x-0 top-0 h-1.5"
-                style={{ background: m.accent }}
-              />
-              <span
-                className="inline-flex h-12 w-12 items-center justify-center rounded-2xl"
-                style={{ background: m.accentSoft, color: m.accent }}
-              >
-                <Icon className="h-6 w-6" />
-              </span>
-              <div className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#12142b]/50">
-                {c.eyebrow}
-              </div>
-              <h3 className="font-display mt-2 text-2xl font-semibold tracking-tight text-[#12142b] sm:text-3xl">
-                {c.title}
-              </h3>
-              <p className="mt-3 text-base leading-relaxed text-[#12142b]/70">{c.pitch}</p>
-              <div
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition group-hover:gap-3"
-                style={{ color: m.accent }}
-              >
-                Explore <ArrowUpRight className="h-4 w-4" />
-              </div>
-            </motion.a>
-          );
-        })}
-      </div>
-    </section>
-  );
-};
-
 // ====== Logo: renders nothing if the file isn't in /public yet (the name still shows) ======
 const Logo = ({ src }) => {
   const [failed, setFailed] = useState(false);
@@ -563,12 +485,21 @@ const RoleCard = ({ p, lane, i }) => {
   );
 };
 
+// ====== Group heading: title with a rule running to the edge ======
+const GroupHeading = ({ className, children }) => (
+  <div className={`flex items-center gap-5 ${className}`}>
+    <h3 className="font-display shrink-0 text-2xl font-semibold tracking-tight text-[#12142b] sm:text-3xl">
+      {children}
+    </h3>
+    <div className="h-px flex-1 bg-[#12142b]/12" />
+  </div>
+);
+
 // ====== Showcase: my own products as big panels, past roles as a grid ======
 const Showcase = () => {
   const roles = Object.entries(DATA.lanes).flatMap(([lane, l]) =>
     l.projects.map((p) => ({ p, lane }))
   );
-  const eyebrow = "text-xs font-semibold uppercase tracking-[0.2em] text-[#12142b]/50";
   return (
     <section id="work" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6">
       <motion.h2
@@ -580,14 +511,14 @@ const Showcase = () => {
       >
         Selected work.
       </motion.h2>
-      <div className={`mt-10 ${eyebrow}`}>Products I built</div>
-      <div className="mt-5 grid gap-8">
+      <GroupHeading className="mt-12">Products I built</GroupHeading>
+      <div className="mt-8 grid gap-8">
         {DATA.built.map((p, i) => (
           <FeaturedPanel key={p.name} p={p} i={i} />
         ))}
       </div>
-      <div className={`mt-20 ${eyebrow}`}>Where I've worked</div>
-      <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <GroupHeading className="mt-24">Where I've worked</GroupHeading>
+      <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {roles.map(({ p, lane }, i) => (
           <RoleCard key={p.title} p={p} lane={lane} i={i} />
         ))}
@@ -648,13 +579,6 @@ const Contact = () => {
           >
             <Linkedin className="h-4 w-4" /> LinkedIn
           </a>
-          <a
-            href={asset(DATA.resumeUrl)}
-            download
-            className="inline-flex items-center gap-2 rounded-full border border-[#12142b]/15 bg-white/60 px-6 py-3.5 text-sm font-semibold text-[#12142b] transition hover:bg-white"
-          >
-            <Download className="h-4 w-4" /> CV
-          </a>
         </div>
       </motion.div>
     </section>
@@ -668,7 +592,6 @@ export default function Portfolio() {
         <Atmosphere />
         <Header />
         <Hero />
-        <WhatIDo />
         <Showcase />
         <Contact />
         <footer className="mx-auto max-w-6xl px-4 pb-10 text-center text-xs text-[#12142b]/50">
