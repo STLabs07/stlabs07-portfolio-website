@@ -37,7 +37,9 @@ const DATA = {
           icon: Sparkles,
           logo: "/logo-nassau-ai.svg",
           markOnly: true,
-          subtitle: "AI Search Visibility — AEO/GEO Strategy",
+          role: "AI Lead Developer / SEO Lead",
+          period: "Jan 2025 – Present",
+          subtitle: "AI Search Visibility",
           blurb:
             "Leading visibility strategy across AI Overviews, ChatGPT, Perplexity and classic SERPs for a marketing & dev team.",
           // placeholder metric — replace with a real one
@@ -48,9 +50,11 @@ const DATA = {
           title: "Pastel Collections",
           icon: ShoppingBag,
           logo: "/logo-pastel.png",
-          subtitle: "National Retail E-Commerce SEO",
+          role: "Head of UI/UX, Full-Stack Developer",
+          period: "Mar 2021 – Feb 2025",
+          subtitle: "National Retail E-Commerce",
           blurb:
-            "Owned SEO and on-page strategy for a 30+ store national clothing brand's B2B/B2C platform.",
+            "Led UI/UX and full-stack development for a 30+ store national clothing brand — owning the platform end-to-end, including SEO and on-page strategy.",
           // placeholder metric — replace with a real one
           metric: { value: 180, prefix: "+", suffix: "%", label: "organic revenue growth" },
           tags: ["E-Commerce SEO", "Content Strategy", "Core Web Vitals"],
@@ -60,10 +64,12 @@ const DATA = {
           icon: TrendingUp,
           logo: "/logo-rank-empire.svg",
           markOnly: true,
-          subtitle: "Agency SEO Portfolio",
+          role: "Senior SEO Analyst",
+          period: "Jun 2017 – Feb 2021",
+          subtitle: "SEO Agency",
           blurb:
             "Set strategy across an agency client portfolio; oversaw domain, HTTPS and replatform migrations with zero ranking loss.",
-          metric: { value: 549, prefix: "+", suffix: "%", label: "growth in ranking keywords this year" },
+          metric: { value: 549, prefix: "+", suffix: "%", label: "growth in ranking keywords" },
           tags: ["SEO Strategy", "Site Migrations", "Team Leadership"],
         },
       ],
@@ -75,6 +81,8 @@ const DATA = {
           title: "Toggle.io",
           icon: Timer,
           logo: "/logo-toggle.png",
+          role: "Lead UI/UX & Frontend Developer",
+          period: "Contract",
           subtitle: "Real-Time Time Tracking",
           blurb:
             "Popular time tracking app built with React & React Native — lead UI/UX and frontend.",
@@ -87,6 +95,8 @@ const DATA = {
           title: "Astra Health",
           icon: HeartPulse,
           logo: "/logo-astra-health.svg",
+          role: "Senior Frontend Developer",
+          period: "Contract",
           subtitle: "Telemedicine Platform",
           blurb:
             "Re-architected patient flows and the design system for accessibility and speed.",
@@ -98,6 +108,8 @@ const DATA = {
         {
           title: "Quanta Fin",
           icon: ChartCandlestick,
+          role: "Senior Frontend Developer",
+          period: "Contract",
           subtitle: "Fintech Dashboard",
           blurb:
             "High-density real-time data UI with micro-interactions.",
@@ -468,7 +480,10 @@ const RoleCard = ({ p, lane, i }) => {
       <h3 className="font-display mt-5 text-2xl font-semibold tracking-tight text-[#12142b]">
         {p.title}
       </h3>
-      <div className="mt-1 text-sm font-medium text-[#12142b]/55">{p.subtitle}</div>
+      <div className="mt-1.5 text-sm font-semibold text-[#12142b]/80">{p.role}</div>
+      <div className="mt-0.5 text-sm text-[#12142b]/50">
+        {p.period} · {p.subtitle}
+      </div>
       <p className="mt-4 text-sm leading-relaxed text-[#12142b]/70">{p.blurb}</p>
       {p.metric && (
         <div className="mt-5 flex items-baseline gap-2">
