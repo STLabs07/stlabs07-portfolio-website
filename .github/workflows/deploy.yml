@@ -1,9 +1,8 @@
 name: Deploy to GitHub Pages
 
-# NOTE: triggers on workflow_dispatch only while the repo is private (free GitHub
-# plans can't publish Pages from a private repo). Once you flip this repo to
-# public, add back `push: branches: [main]` to auto-deploy on every push.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
