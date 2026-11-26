@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { motion, MotionConfig } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { motion, MotionConfig, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -375,6 +375,11 @@ const Logo = ({ src }) => {
 const FeaturedPanel = ({ p, i }) => {
   const m = MODES.dev;
   const flip = i % 2 === 1;
+  // Screenshot drifts slower than the card while scrolling; the image is 16% taller than its frame so no edge shows.
+  const frame = useRef(null);
+  const { scrollYProgress } = useScroll({ target: frame, offset: ["start end", "end start"] });
+  const reduce = useReducedMotion();
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["-6%", "6%"]);
   return (
     <motion.article
       initial={{ opacity: 0, y: 48, scale: 0.97 }}
@@ -434,11 +439,12 @@ const FeaturedPanel = ({ p, i }) => {
             ))}
           </div>
         </div>
-        <div className="relative min-h-[16rem] overflow-hidden bg-[#12142b]/5 lg:[direction:ltr]">
-          <img
+        <div ref={frame} className="relative min-h-[16rem] overflow-hidden bg-[#12142b]/5 lg:[direction:ltr]">
+          <motion.img
             src={asset(p.cover)}
             alt={`${p.name} screenshot`}
-            className="absolute inset-0 h-full w-full object-cover object-left-top"
+            style={{ y }}
+            className="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover object-left-top"
           />
         </div>
       </div>
